@@ -7,7 +7,11 @@ variables:
 create-terraform-doc:
   stage: pre
   rules:
-    - when: manual
+    - changes:
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
+      when: manual
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
     entrypoint: ['']
@@ -54,7 +58,7 @@ upload-terraform-doc:
       jq -n \
         --arg branch "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" \
         --arg content "$CONTENT" \
-        --arg message "doc: update module documentation for ${MODULE_PATH}" \
+        --arg message "doc: update module documentation for ${MODULE_PATH} [skip ci]" \
         '{
           branch: $branch,
           encoding: "base64",
