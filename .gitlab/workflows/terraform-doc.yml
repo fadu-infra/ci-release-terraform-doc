@@ -7,11 +7,7 @@ variables:
 create-terraform-doc:
   stage: pre
   rules:
-    - changes:
-        - ${MODULE_PATH}/**/*.tf
-        - ${MODULE_PATH}/**/*.tfvars
-        - ${MODULE_PATH}/**/*.hcl
-      when: manual
+    - when: manual
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
     entrypoint: ['']

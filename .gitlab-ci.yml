@@ -2,7 +2,13 @@
 workflow:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+      changes:
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
+      when: always
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: always
     - when: never
 
 stages:
