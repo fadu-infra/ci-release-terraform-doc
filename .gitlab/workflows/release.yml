@@ -69,9 +69,6 @@ release:
 github-release:
   stage: post
   image: alpine:latest
-  needs:
-    - job: changelog
-      artifacts: true
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
