@@ -8,8 +8,9 @@ create-terraform-doc:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
       changes:
-        - ${MODULE_PATH}/**/*
-        - '!${MODULE_PATH}/${DOC_FILENAME}'
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
       when: always
   stage: pre
   image:
@@ -47,8 +48,9 @@ upload-terraform-doc:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
       changes:
-        - ${MODULE_PATH}/**/*
-        - '!${MODULE_PATH}/${DOC_FILENAME}'
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
       when: always
   stage: post
   image: alpine:latest
