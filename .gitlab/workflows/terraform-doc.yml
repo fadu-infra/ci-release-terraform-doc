@@ -45,7 +45,11 @@ create-terraform-doc:
 # test523453
 upload-terraform-doc:
   rules:
-    - when: on_success
+    - changes:
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
+      when: on_success
   stage: doc
   image: alpine:latest
   before_script:
