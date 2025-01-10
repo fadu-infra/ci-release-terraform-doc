@@ -6,6 +6,8 @@ variables:
 # Generate Terraform documentation
 create-terraform-doc:
   stage: pre
+  rules:
+    - when: manual
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
     entrypoint: ['']
