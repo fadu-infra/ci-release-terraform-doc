@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "default" {
   tags = local.tags
 }
 
-resource "aws_ecs_cluster_capacity_providers" "example" {
+resource "aws_ecs_cluster_capacity_providers" "example3" {
   cluster_name = aws_ecs_cluster.default.name
 
   capacity_providers = [aws_ecs_capacity_provider.asg.name]
@@ -18,7 +18,7 @@ resource "aws_ecs_cluster_capacity_providers" "example" {
   }
 }
 
-resource "aws_ecs_capacity_provider" "asg" {
+resource "aws_ecs_capacity_provider" "asg2" {
   name = aws_autoscaling_group.ecs_nodes.name
 
   auto_scaling_group_provider {

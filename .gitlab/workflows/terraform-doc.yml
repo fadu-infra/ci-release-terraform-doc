@@ -6,7 +6,10 @@ variables:
 # Generate Terraform documentation
 create-terraform-doc:
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+      changes:
+        - ${MODULE_PATH}/**/*
+        - '!${MODULE_PATH}/${DOC_FILENAME}'
       when: always
   stage: pre
   image:
@@ -44,7 +47,8 @@ upload-terraform-doc:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
       changes:
-        - ${MODULE_PATH}/${DOC_FILENAME}
+        - ${MODULE_PATH}/**/*
+        - '!${MODULE_PATH}/${DOC_FILENAME}'
       when: always
   stage: post
   image: alpine:latest
