@@ -11,7 +11,7 @@ create-terraform-doc:
         - ${MODULE_PATH}/**/*.tf
         - ${MODULE_PATH}/**/*.tfvars
         - ${MODULE_PATH}/**/*.hcl
-      when: always
+      when: manual
   stage: pre
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
@@ -45,9 +45,6 @@ create-terraform-doc:
 
 # test523453
 upload-terraform-doc:
-  rules:
-    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
-      when: on_success
   stage: post
   image: alpine:latest
   before_script:
