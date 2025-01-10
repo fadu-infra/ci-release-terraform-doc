@@ -2,6 +2,53 @@
 
 All notable changes to this project will be documented in this file.
 
+## [unreleased]
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (1490bf5)
+- Update module documentation for modules/ecs-asg-cluster (468bccc)
+- Update module documentation for modules/ecs-asg-cluster (2b8958f)
+- Update module documentation for modules/ecs-asg-cluster (9769b16)
+- Update module documentation for modules/ecs-asg-cluster (a144c7b)
+- Update module documentation for modules/ecs-asg-cluster (bb0aa65)
+- Update module documentation for modules/ecs-asg-cluster (1101af1)
+- Update module documentation for modules/ecs-asg-cluster (10fd065)
+- Update module documentation for modules/ecs-asg-cluster (583a243)
+- Update module documentation for modules/ecs-asg-cluster (d9c400d)
+- Update module documentation for modules/ecs-asg-cluster (2a3759f)
+- Update module documentation for modules/ecs-asg-cluster (8f297c2)
+- Update module documentation for modules/ecs-asg-cluster (fbe0bda)
+- Update module documentation for modules/ecs-asg-cluster (9354d04)
+- Update module documentation for modules/ecs-asg-cluster (d728c7c)
+- Update module documentation for modules/ecs-asg-cluster (517d868)
+- Update module documentation for modules/ecs-asg-cluster (530ee95)
+- Update module documentation for modules/ecs-asg-cluster (20f6022)
+- Update module documentation for modules/ecs-asg-cluster (3574485)
+- Update module documentation for modules/ecs-asg-cluster (84e3727)
+- Update module documentation for modules/ecs-asg-cluster (417ef5b)
+- Update module documentation for modules/ecs-asg-cluster (262f0a1)
+- Update module documentation for modules/ecs-asg-cluster (ef9c4ba)
+- Update module documentation for modules/ecs-asg-cluster (d0c0784)
+- Update CHANGELOG.md for version v0.1.0 (afa4934)
+- Update module documentation for modules/ecs-asg-cluster (92ac7a2)
+- Update module documentation for modules/ecs-asg-cluster (50d399d)
+
+### 💼 Other
+
+- Test 25 (04ece3c)
+- Test 24 (173cd0c)
+- Test 23 (0d043f6)
+- Remove never (0d337f2)
+- Test (19c6076)
+- Test22 (fdb21c6)
+- Test20 (21e7b30)
+- Test19 (f43d342)
+- Test 224234 (af3b0d4)
+- Last...6 (6b11bc1)
+- Last...5 (d71219b)
+- Last...4 (8d75e3c)
+- Last...3 (82cc3b8)
 ## [0.1.0] - 2025-01-10
 
 ### 📚 Documentation
