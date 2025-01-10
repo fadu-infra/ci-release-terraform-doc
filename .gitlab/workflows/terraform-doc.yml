@@ -5,6 +5,9 @@ variables:
 
 # Generate Terraform documentation
 create-terraform-doc:
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+      when: always
   stage: pre
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
@@ -39,7 +42,7 @@ create-terraform-doc:
 # test523453
 upload-terraform-doc:
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
       changes:
         - ${MODULE_PATH}/${DOC_FILENAME}
       when: always
@@ -53,7 +56,7 @@ upload-terraform-doc:
       CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
 
       jq -n \
-        --arg branch "$CI_DEFAULT_BRANCH" \
+        --arg branch "$CI_COMMIT_BRANCH" \
         --arg content "$CONTENT" \
         --arg message "doc: update module documentation for ${MODULE_PATH}" \
         '{
