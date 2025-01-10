@@ -5,12 +5,6 @@ variables:
 
 # Generate Terraform documentation
 create-terraform-doc:
-  rules:
-    - changes:
-        - ${MODULE_PATH}/**/*.tf
-        - ${MODULE_PATH}/**/*.tfvars
-        - ${MODULE_PATH}/**/*.hcl
-      when: manual
   stage: pre
   image:
     name: quay.io/terraform-docs/terraform-docs:latest

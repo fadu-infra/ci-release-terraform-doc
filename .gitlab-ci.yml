@@ -8,7 +8,6 @@ workflow:
         - ${MODULE_PATH}/**/*.tf
         - ${MODULE_PATH}/**/*.tfvars
         - ${MODULE_PATH}/**/*.hcl
-        - ! ${MODULE_PATH}/**/README.md
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 
