@@ -1,4 +1,4 @@
-changelog:
+create-changelog:
   stage: pre
   image:
     name: orhunp/git-cliff:latest
@@ -46,9 +46,11 @@ upload-changelog:
 generate-tag:
   stage: release
   image: node:16
+  variables:
+    GL_TOKEN: $GITLAB_API_TOKEN 
   script:
     - npm install -g semantic-release @semantic-release/git @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-    - npx semantic-release --no-ci
+    - npx semantic-release
   artifacts:
     paths:
       - .git # Ensure the updated Git history with new tags is passed to the next stage
