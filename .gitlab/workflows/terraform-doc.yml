@@ -60,7 +60,7 @@ upload-terraform-doc:
       CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
 
       jq -n \
-        --arg branch "$CI_COMMIT_BRANCH" \
+        --arg branch "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" \
         --arg content "$CONTENT" \
         --arg message "doc: update module documentation for ${MODULE_PATH}" \
         '{
