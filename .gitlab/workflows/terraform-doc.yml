@@ -36,6 +36,7 @@ create-terraform-doc:
       - ${MODULE_PATH}/${DOC_FILENAME}
     expire_in: 1 week
 
+# tests
 upload-terraform-doc:
   rules:
     - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
