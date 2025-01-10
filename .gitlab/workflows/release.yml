@@ -5,7 +5,7 @@ changelog:
     entrypoint: ['']
   variables:
     GIT_STRATEGY: clone # clone entire repo instead of reusing workspace
-    GIT_DEPTH: 0 # avoid shallow clone to give cliff all the info it needs
+    GIT_DEPTH: 0 # avoid shallow clone to give cliff all the info it needss
   script:
     - git-cliff --latest -r . > release_notes.md
     - git-cliff -r . > CHANGELOG.md
