@@ -5,6 +5,12 @@ variables:
 
 # Generate Terraform documentation
 create-terraform-doc:
+  rules:
+    - changes:
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
+      when: manual
   stage: pre
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
@@ -36,13 +42,10 @@ create-terraform-doc:
       - ${MODULE_PATH}/${DOC_FILENAME}
     expire_in: 1 week
 
-# test3
+# test523453
 upload-terraform-doc:
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      changes:
-        - ${MODULE_PATH}/${DOC_FILENAME}
-      when: always
+    - when: on_success
   stage: post
   image: alpine:latest
   before_script:
@@ -53,7 +56,7 @@ upload-terraform-doc:
       CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
 
       jq -n \
-        --arg branch "$CI_DEFAULT_BRANCH" \
+        --arg branch "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" \
         --arg content "$CONTENT" \
         --arg message "doc: update module documentation for ${MODULE_PATH}" \
         '{

@@ -1,4 +1,17 @@
-#aa
+variables:
+  MODULE_PATH: modules/ecs-asg-cluster
+
+workflow:
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+      changes:
+        - ${MODULE_PATH}/**/*.tf
+        - ${MODULE_PATH}/**/*.tfvars
+        - ${MODULE_PATH}/**/*.hcl
+        - ! ${MODULE_PATH}/**/README.md
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+
+
 stages:
   - pre
   - release
