@@ -36,6 +36,9 @@ All notable changes to this project will be documented in this file.
 
 ### 💼 Other
 
+- Test 28 (2299510)
+- Test 27 (3766db5)
+- Test 26 (310376f)
 - Test 25 (04ece3c)
 - Test 24 (173cd0c)
 - Test 23 (0d043f6)
