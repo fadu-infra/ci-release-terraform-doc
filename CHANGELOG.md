@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.0] - 2025-01-10
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (4797e46)
+- Update module documentation for modules/ecs-asg-cluster (7c7c0ce)
+- Update CHANGELOG.md for version v0.0.9 (056cb6c)
+
+### 💼 Other
+
+- Last...2 (12b0b79)
+- Last... (b3e902d)
 ## [0.0.9] - 2025-01-10
 
 ### 💼 Other
