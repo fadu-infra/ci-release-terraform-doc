@@ -45,7 +45,9 @@ create-terraform-doc:
 
 # test523453
 upload-terraform-doc:
-  when: on_success
+  rules:
+    - if: '$CI_MERGE_REQUEST_TARGET_BRANCH_NAME == $CI_DEFAULT_BRANCH'
+      when: on_success
   stage: post
   image: alpine:latest
   before_script:
