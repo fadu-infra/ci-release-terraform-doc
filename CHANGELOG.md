@@ -2,6 +2,71 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.0.9] - 2025-01-10
+
+### 💼 Other
+
+- Commit rename2 (e9e8fff)
+## [0.0.8] - 2025-01-10
+
+### 💼 Other
+
+- Commit rename (30942b1)
+## [0.0.7] - 2025-01-10
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (1b0c53e)
+
+### 💼 Other
+
+- Remove line (94d531b)
+## [0.0.6] - 2025-01-10
+
+### 🐛 Bug Fixes
+
+- Rule (5c97ae4)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (1ca298f)
+- Update module documentation for modules/ecs-asg-cluster (1d91e0e)
+- Update module documentation for modules/ecs-asg-cluster (24f21e9)
+- Update module documentation for modules/ecs-asg-cluster (a4e6736)
+- Update module documentation for modules/ecs-asg-cluster (de33cf7)
+- Update module documentation for modules/ecs-asg-cluster (3d0b006)
+- Update module documentation for modules/ecs-asg-cluster (b654e8e)
+- Update module documentation for modules/ecs-asg-cluster (06426f9)
+
+### 💼 Other
+
+- V0.0.4-test (fd0d312)
+## [0.0.3] - 2025-01-10
+
+### 🚜 Refactor
+
+- Fix pipeline rules and conditions (8e138c9)
+
+### 💼 Other
+
+- Test2 (eb8432a)
+- Test (53415e1)
+## [0.0.5] - 2025-01-10
+
+### 🚜 Refactor
+
+- V0.0.5 (72109ce)
+- V0.0.5 (f8cbf30)
+## [0.0.4] - 2025-01-10
+
+### 🚜 Refactor
+
+- Fix pipeline rules and conditions (88dc1ae)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (05fdd05)
+- Update CHANGELOG.md for version (edfe17f)
 ## [0.0.2] - 2025-01-10
 
 ### 🚜 Refactor
