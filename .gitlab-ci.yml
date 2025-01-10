@@ -1,11 +1,3 @@
-workflow:
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"' # MR 중에는 실행하지 않음
-      when: never
-    - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE =~ /Merge branch.*/'
-      when: always
-    - when: never
-
 stages:
   - pre
   - release
