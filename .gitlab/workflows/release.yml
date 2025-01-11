@@ -1,3 +1,6 @@
+include:
+  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+
 create-changelog:
   stage: pre
   image:
@@ -43,27 +46,26 @@ upload-changelog:
         --data @payload.json \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/CHANGELOG.md"
 
-generate-tag:
+semantic-version:
   stage: release
-  image: node:16
-  variables:
-    GL_TOKEN: $GITLAB_API_TOKEN 
+  extends: .semrel-base
   script:
-    - npm install -g semantic-release @semantic-release/git @semantic-release/commit-analyzer @semantic-release/release-notes-generator
-    - npx semantic-release
+    - semantic-release ${TRACE:+--debug} --ci
   artifacts:
     paths:
-      - .git # Ensure the updated Git history with new tags is passed to the next stage
+      - generated_tag.txt
 
 release:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo "Creating release"
+    - export GENERATED_TAG=$(cat generated_tag.txt)
+    - echo "Creating release for tag $GENERATED_TAG"
   release:
-    name: 'Release $CI_COMMIT_TAG'
+    name: 'Release $GENERATED_TAG'
     description: release_notes.md
-    tag_name: '$CI_COMMIT_TAG'
+    tag_name: '$GENERATED_TAG'
     ref: '$CI_COMMIT_SHA'
 
 github-release:
