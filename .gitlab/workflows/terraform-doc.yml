@@ -5,7 +5,7 @@ variables:
 
 # Generate Terraform documentation
 create-terraform-doc:
-  stage: pre
+  stage: .pre
   rules:
     - changes:
         - ${MODULE_PATH}/**/*.tf
@@ -50,7 +50,7 @@ upload-terraform-doc:
         - ${MODULE_PATH}/**/*.tfvars
         - ${MODULE_PATH}/**/*.hcl
       when: on_success
-  stage: doc
+  stage: publish
   image: alpine:latest
   before_script:
     - apk add --no-cache curl jq

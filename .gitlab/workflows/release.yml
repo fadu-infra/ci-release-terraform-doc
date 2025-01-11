@@ -2,7 +2,7 @@ include:
   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
 create-changelog:
-  stage: pre
+  stage: .pre
   image:
     name: orhunp/git-cliff:latest
     entrypoint: ['']
@@ -18,7 +18,7 @@ create-changelog:
       - release_notes.md
 
 upload-changelog:
-  stage: doc
+  stage: publish
   image: alpine:latest
   needs:
     - job: create-changelog
@@ -47,7 +47,7 @@ upload-changelog:
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/CHANGELOG.md"
 
 semantic-version:
-  stage: release
+  stage: publish
   extends: .semrel-base
   script:
     - semantic-release ${TRACE:+--debug} --ci
@@ -56,7 +56,7 @@ semantic-version:
       - generated_tag.txt
 
 release:
-  stage: release
+  stage: publish
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   script:
     - echo "Creating release"
@@ -69,7 +69,7 @@ release:
     ref: '$CI_COMMIT_SHA'
 
 github-release:
-  stage: post
+  stage: .post
   image: alpine:latest
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
