@@ -1,2 +1,1 @@
-# semrel-required-plugins.txt
 conventional-changelog-conventionalcommits@latest
