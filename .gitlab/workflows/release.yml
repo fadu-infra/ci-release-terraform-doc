@@ -1,9 +1,5 @@
 include:
   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
-    inputs:
-      changelog-enabled: false
-      tag-format: 'v$${version}' 
-      branches-ref: '^main$' 
 
 semantic-release:
   stage: release
@@ -18,22 +14,6 @@ semantic-release:
   artifacts:
     paths:
       - generated_tag.txt
-
-gitlab-release:
-  stage: publish
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: on_success
-  script:
-    - echo "Creating release"
-    - export GENERATED_TAG=$(cat generated_tag.txt)
-    - echo "Creating release for tag $GENERATED_TAG"
-  release:
-    name: 'Release $GENERATED_TAG'
-    description: release_notes.md
-    tag_name: '$GENERATED_TAG'
-    ref: '$CI_COMMIT_SHA'
 
 github-release:
   stage: post

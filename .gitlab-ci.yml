@@ -10,9 +10,8 @@ workflow:
     - when: never
 stages:
   - pre
-  - release
   - docs
-  - publish
+  - release
   - post
 
 include:

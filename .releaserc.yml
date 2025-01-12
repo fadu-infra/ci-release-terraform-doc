@@ -1,0 +1,54 @@
+tagFormat: "v${version}"
+branches:
+  - main
+
+plugins:
+  # 커밋 분석
+  - - "@semantic-release/commit-analyzer"
+    - preset: "conventionalcommits"
+      parserOpts:
+        noteKeywords: ["BREAKING CHANGE", "BREAKING CHANGES", "MAJOR CHANGE"]
+
+# 릴리즈 노트 생성
+  - - "@semantic-release/release-notes-generator"
+    - preset: "conventionalcommits"
+      presetConfig:
+        types:
+          - type: feat
+            section: "<!-- 1 -->🚀 New Features"
+            hidden: false
+          - type: fix
+            section: <!-- 2 -->🐛 Bug Fixes"
+            hidden: false
+          - type: ci
+            section: "<!-- 3 -->🔧 Maintenance"
+            hidden: false
+          - type: chore
+            section: "<!-- 4 -->🧰 Maintenance"
+            hidden: false
+          - type: refactor
+            section: "<!-- 5 -->🚜 Refactor"
+            hidden: false
+          - type: docs
+            section: "<!-- 6 -->📚 Documentation"
+            hidden: false
+          - type: perf
+            section: "<!-- 7 -->⚡️ Performance Improvements ⚡️"
+            hidden: false
+
+
+  # CHANGELOG.md 생성(또는 갱신)
+  - - "@semantic-release/changelog"
+    - changelogFile: "CHANGELOG.md"
+
+  # CHANGELOG, package.json 등을 커밋/푸시
+  - - "@semantic-release/git"
+    - assets:
+      - "CHANGELOG.md"
+      message: |-
+        chore(release): ${nextRelease.version}
+
+        ${nextRelease.notes}
+
+  # GitLab Release 생성
+  - "@semantic-release/gitlab"

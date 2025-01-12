@@ -35,22 +35,6 @@ create-terraform-doc:
       - ${MODULE_PATH}/${DOC_FILENAME}
     expire_in: 1 week
 
-create-changelog:
-  stage: pre
-  image:
-    name: orhunp/git-cliff:latest
-    entrypoint: ['']
-  variables:
-    GIT_STRATEGY: clone # clone entire repo instead of reusing workspace
-    GIT_DEPTH: 0 # avoid shallow clone to give cliff all the info it needss
-  script:
-    - git-cliff --latest -r . > release_notes.md
-    - git-cliff -r . > CHANGELOG.md
-  artifacts:
-    paths:
-      - CHANGELOG.md
-      - release_notes.md
-
 upload-terraform-doc:
   stage: docs
   extends: .doc-base
@@ -69,7 +53,7 @@ upload-terraform-doc:
       jq -n \
         --arg branch "$CI_DEFAULT_BRANCH" \
         --arg content "$CONTENT" \
-        --arg message "doc: update module documentation for ${MODULE_PATH}" \
+        --arg message "docs: update module documentation for ${MODULE_PATH}" \
         '{
           branch: $branch,
           encoding: "base64",
@@ -82,35 +66,3 @@ upload-terraform-doc:
         --header "Content-Type: application/json" \
         --data @payload.json \
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
-
-upload-changelog:
-  stage: docs
-  extends: .doc-base
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-  needs:
-    - job: create-changelog
-      artifacts: true
-    - job: semantic-release
-      artifacts: true
-  script:
-    - |
-      CONTENT=$(cat CHANGELOG.md | jq -sR '@base64')
-      GENERATED_TAG=$(cat generated_tag.txt)
-
-      jq -n \
-        --arg branch "$CI_DEFAULT_BRANCH" \
-        --arg content "$CONTENT" \
-        --arg message "doc: update CHANGELOG.md for version ${GENERATED_TAG}" \
-        '{
-          branch: $branch,
-          encoding: "base64",
-          content: $content,
-          commit_message: $message
-        }' > payload.json
-
-      curl --request PUT \
-        --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data @payload.json \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/CHANGELOG.md"
