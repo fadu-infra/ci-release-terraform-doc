@@ -1,85 +1,42 @@
-changelog:
-  stage: pre
+include:
+  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+
+semantic-version:
+  stage: release
+  extends: .semrel-base
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v?\d+\.\d+\.\d+$/'
-      when: always
-  image:
-    name: orhunp/git-cliff:latest
-    entrypoint: ['']
-  variables:
-    GIT_STRATEGY: clone # clone entire repo instead of reusing workspace
-    GIT_DEPTH: 0 # avoid shallow clone to give cliff all the info it needss
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
   script:
-    - git-cliff --latest -r . > release_notes.md
-    - git-cliff -r . > CHANGELOG.md
+    - semantic-release ${TRACE:+--debug} --ci
   artifacts:
     paths:
-      - CHANGELOG.md
-      - release_notes.md
+      - generated_tag.txt
 
-release:
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v?\d+\.\d+\.\d+$/'
-      when: always
+gitlab-release:
   stage: release
   image: registry.gitlab.com/gitlab-org/release-cli:latest
-  needs:
-    - job: changelog
-      artifacts: true
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
   script:
     - echo "Creating release"
+    - export GENERATED_TAG=$(cat generated_tag.txt)
+    - echo "Creating release for tag $GENERATED_TAG"
   release:
-    name: 'Release $CI_COMMIT_TAG'
+    name: 'Release $GENERATED_TAG'
     description: release_notes.md
-    tag_name: '$CI_COMMIT_TAG'
+    tag_name: '$GENERATED_TAG'
     ref: '$CI_COMMIT_SHA'
 
-upload-changelog:
-  rules:
-    - if: '$CI_COMMIT_TAG =~ /^v?\d+\.\d+\.\d+$/'
-      when: always
-  stage: post
-  image: alpine:latest
-  needs:
-    - job: changelog
-      artifacts: true
-  before_script:
-    - apk add --no-cache curl jq
-  script:
-    - |
-      CONTENT=$(cat CHANGELOG.md | jq -sR '@base64')
-
-      jq -n \
-        --arg branch "$CI_DEFAULT_BRANCH" \
-        --arg content "$CONTENT" \
-        --arg message "doc: update CHANGELOG.md for version ${CI_COMMIT_TAG} [skip ci]" \
-        '{
-          branch: $branch,
-          encoding: "base64",
-          content: $content,
-          commit_message: $message
-        }' > payload.json
-
-      curl --request PUT \
-        --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data @payload.json \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/CHANGELOG.md"
-
 github-release:
-  stage: post
-  image: alpine:latest
+  stage: .post
+  extends: .release-base
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^v?\d+\.\d+\.\d+$/ && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: always
-  needs:
-    - job: changelog
-      artifacts: true
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
-  before_script:
-    - apk add --no-cache curl jq
   script:
     - |
       RELEASE_NOTES=$(cat release_notes.md | jq -R -s '.')

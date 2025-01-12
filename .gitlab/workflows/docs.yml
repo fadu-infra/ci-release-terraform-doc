@@ -1,0 +1,114 @@
+.doc-base:
+  image: alpine:latest
+  before_script:
+    - apk add --no-cache curl jq
+
+# Global variables used across jobs
+variables:
+  MODULE_PATH: modules/ecs-asg-cluster
+  DOC_FILENAME: README.md
+
+# Generate Terraform documentation
+create-terraform-doc:
+  stage: .pre
+  rules:
+    - changes:
+      - ${MODULE_PATH}/**/*.tf
+  image:
+    name: quay.io/terraform-docs/terraform-docs:latest
+    entrypoint: ['']
+  script:
+    - |
+      terraform-docs markdown table \
+        --output-file=${DOC_FILENAME} \
+        --output-mode=replace \
+        --sort=true \
+        --sort-by=required \
+        --hide-empty=true \
+        --sensitive=true \
+        --read-comments=true \
+        --escape=false \
+        --indent=2 \
+        ${MODULE_PATH}
+  artifacts:
+    paths:
+      - ${MODULE_PATH}/${DOC_FILENAME}
+    expire_in: 1 week
+
+create-changelog:
+  stage: .pre
+  image:
+    name: orhunp/git-cliff:latest
+    entrypoint: ['']
+  variables:
+    GIT_STRATEGY: clone # clone entire repo instead of reusing workspace
+    GIT_DEPTH: 0 # avoid shallow clone to give cliff all the info it needss
+  script:
+    - git-cliff --latest -r . > release_notes.md
+    - git-cliff -r . > CHANGELOG.md
+  artifacts:
+    paths:
+      - CHANGELOG.md
+      - release_notes.md
+
+upload-terraform-doc:
+  stage: publish
+  extends: .doc-base
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      changes:
+        - ${MODULE_PATH}/**/*.tf
+  needs:
+    - job: create-terraform-doc
+      artifacts: true
+  script:
+    - |
+      FILE_PATH=$(echo "${MODULE_PATH}/${DOC_FILENAME}" | sed 's/\//%2F/g')
+      CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
+
+      jq -n \
+        --arg branch "$CI_DEFAULT_BRANCH" \
+        --arg content "$CONTENT" \
+        --arg message "doc: update module documentation for ${MODULE_PATH}" \
+        '{
+          branch: $branch,
+          encoding: "base64",
+          content: $content,
+          commit_message: $message
+        }' > payload.json
+
+      curl --request PUT \
+        --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        --header "Content-Type: application/json" \
+        --data @payload.json \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
+
+upload-changelog:
+  stage: publish
+  extends: .doc-base
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+  needs:
+    - job: create-changelog
+      artifacts: true
+  script:
+    - |
+      CONTENT=$(cat CHANGELOG.md | jq -sR '@base64')
+      GENERATED_TAG=$(cat generated_tag.txt)
+
+      jq -n \
+        --arg branch "$CI_DEFAULT_BRANCH" \
+        --arg content "$CONTENT" \
+        --arg message "doc: update CHANGELOG.md for version ${GENERATED_TAG}" \
+        '{
+          branch: $branch,
+          encoding: "base64",
+          content: $content,
+          commit_message: $message
+        }' > payload.json
+
+      curl --request PUT \
+        --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+        --header "Content-Type: application/json" \
+        --data @payload.json \
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/CHANGELOG.md"
