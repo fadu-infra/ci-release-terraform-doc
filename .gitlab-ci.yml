@@ -5,8 +5,7 @@ workflow:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^doc: update module documentation/'
     - if: '$CI_COMMIT_TAG =~ /^v?\d+\.\d+\.\d+$/'
-      when: always # [skip ci]를 무시하고 항상 실행
-
+      when: always
 stages:
   - pre
   - release
