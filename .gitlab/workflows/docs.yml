@@ -91,6 +91,8 @@ upload-changelog:
   needs:
     - job: create-changelog
       artifacts: true
+    - job: generate-version
+      artifacts: true
   script:
     - |
       CONTENT=$(cat CHANGELOG.md | jq -sR '@base64')
