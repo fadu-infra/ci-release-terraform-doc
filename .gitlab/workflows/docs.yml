@@ -91,7 +91,7 @@ upload-changelog:
   needs:
     - job: create-changelog
       artifacts: true
-    - job: generate-version
+    - job: semantic-release
       artifacts: true
   script:
     - |
