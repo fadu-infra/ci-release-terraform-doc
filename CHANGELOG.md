@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.1.7] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last6 (285aa5b)
+
+### 📚 Documentation
+
+- Update CHANGELOG.md for version v0.1.6 (ac8197c)
 ## [0.1.6] - 2025-01-12
 
 ### 🚜 Refactor
