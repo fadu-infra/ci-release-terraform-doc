@@ -1,31 +1,28 @@
-# include:
-#   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+include:
+  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
-# semantic-release:
-#   stage: release
-#   extends: .semrel-base
-#   variables:
-#     GITLAB_TOKEN: $GITLAB_API_TOKEN
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-#       when: on_success
-#   script:
-#     - semantic-release ${TRACE:+--debug} --ci
-#   artifacts:
-#     paths:
-#       - generated_tag.txt
-
-release:
+semantic-release:
   stage: release
-  image: node:20
+  extends: .semrel-base
   variables:
-    GITLAB_TOKEN: ${GITLAB_API_TOKEN}
-  before_script:
-    - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
-  script:
-    - semantic-release ${TRACE:+--debug} --ci
+    GITLAB_TOKEN: $GITLAB_API_TOKEN
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
+  script:
+    - semantic-release ${TRACE:+--debug} --ci
+
+# release:
+#   stage: release
+#   image: node:20
+#   variables:
+#     GITLAB_TOKEN: ${GITLAB_API_TOKEN}
+#   before_script:
+#     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
+#   script:
+#     - semantic-release ${TRACE:+--debug} --ci
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 github-release:
   stage: post
