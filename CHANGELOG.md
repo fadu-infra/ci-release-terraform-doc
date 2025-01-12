@@ -2,6 +2,78 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.6] - 2025-01-12
+
+### 🚜 Refactor
+
+- Test21 (b5084a4)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (817c53f)
+## [0.2.5] - 2025-01-12
+
+### 🚜 Refactor
+
+- Test20 (23dda84)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (f81e21d)
+## [0.2.4] - 2025-01-12
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (21dda91)
+
+### 💼 Other
+
+- Test (986533c)
+## [0.2.3] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last11 (8223de6)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (47ea925)
+## [0.2.1] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last12 (db01d05)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (6803e11)
+## [0.2.0] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last11 (a4eaad6)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (bad17a9)
+## [0.1.9] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last10 (39384d7)
+- Last10 (c9fc117)
+- Last9 (b8230e6)
+- Last8 (2197080)
+- Lastlast (49d75dc)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (eba7fd6)
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (18af398)
+- Update module documentation for modules/ecs-asg-cluster [skip ci] (bb166e1)
+- Update module documentation for modules/ecs-asg-cluster (7b26134)
+- Update module documentation for modules/ecs-asg-cluster (689d8fc)
+- Update CHANGELOG.md for version v0.1.8 [skip ci] (218f399)
 ## [0.1.8] - 2025-01-12
 
 ### 🚜 Refactor
