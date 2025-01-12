@@ -1,7 +1,10 @@
 include:
   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+    inputs:
+      changelog-enabled: false
+      tag-format: 'v$${version}' 
 
-generate-version:
+semantic-release:
   stage: release
   extends: .semrel-base
   rules:
