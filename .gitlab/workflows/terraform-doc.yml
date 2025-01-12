@@ -39,7 +39,6 @@ create-terraform-doc:
       - ${MODULE_PATH}/${DOC_FILENAME}
     expire_in: 1 week
 
-# test523453
 upload-terraform-doc:
   rules:
     - if: '$CI_PIPELINE_SOURCE == "push" && $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
@@ -57,7 +56,7 @@ upload-terraform-doc:
       CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
 
       jq -n \
-        --arg branch "$CI_MERGE_REQUEST_SOURCE_BRANCH_NAME" \
+        --arg branch "$CI_DEFAULT_BRANCH" \
         --arg content "$CONTENT" \
         --arg message "doc: update module documentation for ${MODULE_PATH}" \
         '{
@@ -71,4 +70,4 @@ upload-terraform-doc:
         --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
         --header "Content-Type: application/json" \
         --data @payload.json \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}?branch_name=${CI_DEFAULT_BRANCH}"
