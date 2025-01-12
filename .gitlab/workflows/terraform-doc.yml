@@ -66,12 +66,8 @@ upload-terraform-doc:
           commit_message: $message
         }' > payload.json
 
-      echo "Debug: Payload content"
-      cat payload.json
-
       curl --request PUT \
         --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
         --header "Content-Type: application/json" \
         --data @payload.json \
-        --verbose \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}?branch=${CI_DEFAULT_BRANCH}"
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
