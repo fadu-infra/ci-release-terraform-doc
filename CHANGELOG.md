@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [0.2.7] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last10000 (9fa2d5c)
+
+### 📚 Documentation
+
+- Update module documentation for modules/ecs-asg-cluster (7828e6c)
+- Update CHANGELOG.md for version v0.2.6 [skip ci] (8cb18f6)
 ## [0.2.6] - 2025-01-12
 
 ### 🚜 Refactor
