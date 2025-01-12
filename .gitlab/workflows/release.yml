@@ -18,6 +18,8 @@
 release:
   stage: release
   image: node:20
+  variables:
+    GITLAB_TOKEN: ${GITLAB_API_TOKEN}
   before_script:
     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
   script:
