@@ -52,7 +52,7 @@ create-changelog:
       - release_notes.md
 
 upload-terraform-doc:
-  stage: publish
+  stage: docs
   extends: .doc-base
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
@@ -84,7 +84,7 @@ upload-terraform-doc:
         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
 
 upload-changelog:
-  stage: publish
+  stage: docs
   extends: .doc-base
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
