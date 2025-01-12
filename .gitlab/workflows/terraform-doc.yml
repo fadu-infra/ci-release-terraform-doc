@@ -58,7 +58,7 @@ upload-terraform-doc:
       jq -n \
         --arg branch "$CI_DEFAULT_BRANCH" \
         --arg content "$CONTENT" \
-        --arg message "doc: update module documentation for ${MODULE_PATH}" \
+        --arg message "doc: update module documentation for ${MODULE_PATH} [skip ci]" \
         '{
           branch: $branch,
           encoding: "base64",
@@ -70,4 +70,4 @@ upload-terraform-doc:
         --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
         --header "Content-Type: application/json" \
         --data @payload.json \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}?branch_name=${CI_DEFAULT_BRANCH}"
+        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}?branch=${CI_DEFAULT_BRANCH}"
