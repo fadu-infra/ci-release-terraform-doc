@@ -68,7 +68,9 @@
         "assets": ["CHANGELOG.md"],
         "message": "chore(release): ${nextRelease.version}\n\n${nextRelease.notes}",
         "authorName": "🤖 GitLab Bot 🤖",
-        "authorEmail": "gitlab-bot@fadutec.com"
+        "authorEmail": "gitlab-bot@fadutec.com",
+        "committerName": "🤖 GitLab Bot 🤖",
+        "committerEmail": "gitlab-bot@fadutec.com"
       }
     ],
     "@semantic-release/gitlab"
