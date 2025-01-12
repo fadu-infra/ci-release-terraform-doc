@@ -10,7 +10,7 @@ variables:
 
 # Generate Terraform documentation
 create-terraform-doc:
-  stage: .pre
+  stage: pre
   rules:
     - changes:
       - ${MODULE_PATH}/**/*.tf
@@ -36,7 +36,7 @@ create-terraform-doc:
     expire_in: 1 week
 
 create-changelog:
-  stage: .pre
+  stage: pre
   image:
     name: orhunp/git-cliff:latest
     entrypoint: ['']

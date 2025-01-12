@@ -9,10 +9,11 @@ workflow:
       when: always
     - when: never
 stages:
-  - .pre
+  - pre
   - release
   - docs
   - publish
+  - post
 
 include:
   - local: '.gitlab/workflows/docs.yml'
