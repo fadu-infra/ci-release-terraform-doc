@@ -1,3 +1,24 @@
+## [0.3.1](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.3.0...v0.3.1) (2025-01-12)
+
+### 🐛 Bug Fixes
+
+* add authoremail ([c2ce8bb](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/c2ce8bbae1704a21907b4d47aa4a47fc6a87c37b))
+* add commiter ([a609312](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/a60931254da8d7bf5cae3a945b53b0ed30b001d0))
+* add variable ([6cb55a0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/6cb55a0d04583121f4bc4c9838dade6d1a93b59b))
+* remove shap ([7c8da6f](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/7c8da6ff4c83037bc5a6326721c399e2ba2ee7ca))
+
+### 🧰 Maintenance
+
+* add dependcieds ([f4d34f9](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/f4d34f965d2c0a4aab8d3ae523c501d5c3a06911))
+* add token ([2fc3d97](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/2fc3d972ee33645b00dcbcdba488825d9348f9e0))
+* fix image ([b915bb5](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/b915bb50a65a852632b58ed72bf407fc977e322a))
+* remove component ([1d8563c](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/1d8563cf5901ed6e95265d3aa0760471a70ef921))
+
+### ⚡️ Performance Improvements ⚡️
+
+* new componont ([2299830](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/2299830b778547767be3bf01a7cd8e09fcdf36fd))
+* test workflow management ([8761fa5](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/8761fa57079e645580b764ff5a87a411c61cb1d4))
+
 # Changelog
 
 All notable changes to this project will be documented in this file.
