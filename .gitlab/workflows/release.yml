@@ -11,12 +11,6 @@ semantic-release:
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: on_success
-  before_script:
-    - |
-      # Check current tag
-      git fetch --tags
-      LATEST_TAG=$(git describe --tags --abbrev=0 2>/dev/null || echo "v0.0.0")
-      echo "Latest tag: $LATEST_TAG"
   script:
     - semantic-release ${TRACE:+--debug} --ci
   artifacts:
