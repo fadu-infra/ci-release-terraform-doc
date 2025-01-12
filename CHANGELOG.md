@@ -2,10 +2,35 @@
 
 All notable changes to this project will be documented in this file.
 
-## [unreleased]
+## [0.1.6] - 2025-01-12
+
+### 🚜 Refactor
+
+- Ha.. (dabebe3)
+## [0.1.5] - 2025-01-12
+
+### 🚜 Refactor
+
+- Last4 (9c70e75)
+- Last3 (362a1bf)
+- Llast2 (696ff5e)
+- Last2 (0158161)
+## [0.1.3] - 2025-01-12
+
+### 🚜 Refactor
+
+- Remove unnecessary rules (333b61b)
+## [0.1.2] - 2025-01-12
+
+### 🚜 Refactor
+
+- Fix all pipeline rules (2165409)
 
 ### 📚 Documentation
 
+- Update CHANGELOG.md for version (d729b89)
+- Update CHANGELOG.md for version (f5eb458)
+- Update CHANGELOG.md for version (57af927)
 - Update module documentation for modules/ecs-asg-cluster (1490bf5)
 - Update module documentation for modules/ecs-asg-cluster (468bccc)
 - Update module documentation for modules/ecs-asg-cluster (2b8958f)
@@ -36,17 +61,6 @@ All notable changes to this project will be documented in this file.
 
 ### 💼 Other
 
-- Test 30 (ad99657)
-- Test 29 (5c984c0)
-- Test 28 (2299510)
-- Test 27 (3766db5)
-- Test 26 (310376f)
-- Test 25 (04ece3c)
-- Test 24 (173cd0c)
-- Test 23 (0d043f6)
-- Remove never (0d337f2)
-- Test (19c6076)
-- Test22 (fdb21c6)
 - Test20 (21e7b30)
 - Test19 (f43d342)
 - Test 224234 (af3b0d4)
