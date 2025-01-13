@@ -1,3 +1,9 @@
+## [0.4.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.3.2...v0.4.0) (2025-01-13)
+
+### 🚀 New Features
+
+* sync gitlab release ([0638847](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/0638847a57fffe9dc3397ef1a9eb59505133d57f))
+
 ## [0.3.2](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.3.1...v0.3.2) (2025-01-13)
 
 ### 🐛 Bug Fixes
