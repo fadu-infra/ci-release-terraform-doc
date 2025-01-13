@@ -1,3 +1,9 @@
+## [0.4.3](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.2...v0.4.3) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+* remove multi line command ([9f0f726](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/9f0f7262917173a9563cc7699f6ff75771c63974))
+
 ## [0.4.2](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.1...v0.4.2) (2025-01-13)
 
 ### 🐛 Bug Fixes
