@@ -1,3 +1,9 @@
+## [0.4.4](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.3...v0.4.4) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+* remove sorrry ([939a292](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/939a292e97124bad425afedb53dc45d2e3b42d7f))
+
 ## [0.4.3](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.2...v0.4.3) (2025-01-13)
 
 ### 🐛 Bug Fixes
