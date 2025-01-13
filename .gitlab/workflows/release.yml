@@ -44,7 +44,7 @@ github-release:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
   needs:
-    - job: release
+    - job: semantic-release
       artifacts: true
   script:
     - |
