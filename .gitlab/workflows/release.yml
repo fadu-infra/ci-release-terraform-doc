@@ -41,9 +41,8 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      LATEST_TAG=`curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name'`
-      GITLAB_RELEASE=$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}"`
-
+      LATEST_TAG=$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')
+      GITLAB_RELEASE=$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")
       RELEASE_NOTES=$(echo "$GITLAB_RELEASE" | jq -r '.description')
       RELEASE_INFO=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}")
       RELEASE_ID=$(echo "$RELEASE_INFO" | jq -r '.id // empty')
