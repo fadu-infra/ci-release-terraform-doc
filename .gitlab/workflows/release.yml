@@ -41,17 +41,15 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      set -e  # Exit immediately if a command exits with a non-zero status
-
       # Fetch latest tag
-      LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
+      LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
       if [ -z "$LATEST_TAG" ]; then
         echo "Error: Could not fetch latest tag"
         exit 1
       fi
 
       # Fetch GitLab release info
-      GITLAB_RELEASE="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
+      GITLAB_RELEASE="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
       if [ -z "$GITLAB_RELEASE" ]; then
         echo "Error: Could not fetch GitLab release information"
         exit 1
