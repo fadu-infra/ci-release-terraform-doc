@@ -1,3 +1,9 @@
+## [0.4.1](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.0...v0.4.1) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+* syntax error ([305e2e0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/305e2e078bf9300bffc4d92523f303294c404d72))
+
 ## [0.4.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.3.2...v0.4.0) (2025-01-13)
 
 ### 🚀 New Features
