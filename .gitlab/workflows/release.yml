@@ -41,18 +41,9 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      GITLAB_RELEASE=$(curl -s \
-        --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" \
-        "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/releases/${CI_COMMIT_TAG}")
-
+      GITLAB_RELEASE=$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/releases/${CI_COMMIT_TAG}")
       RELEASE_NOTES=$(echo "$GITLAB_RELEASE" | jq -r '.description')
-
-      RELEASE_INFO=$(curl -s \
-        -H "Accept: application/vnd.github+json" \
-        -H "Authorization: Bearer ${GITHUB_API_TOKEN}" \
-        -H "X-GitHub-Api-Version: 2022-11-28" \
-        "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${CI_COMMIT_TAG}")
-
+      RELEASE_INFO=$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${CI_COMMIT_TAG}")
       RELEASE_ID=$(echo "$RELEASE_INFO" | jq -r '.id // empty')
 
       if [ -z "$RELEASE_ID" ]; then
