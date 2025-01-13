@@ -1,3 +1,9 @@
+## [0.4.2](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.1...v0.4.2) (2025-01-13)
+
+### 🐛 Bug Fixes
+
+* change latest tag ([10ee009](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/10ee009619e57b0687fc1ef923f0c80fe51d4ffd))
+
 ## [0.4.1](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.0...v0.4.1) (2025-01-13)
 
 ### 🐛 Bug Fixes
