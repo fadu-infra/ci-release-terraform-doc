@@ -6,15 +6,19 @@ semantic-release:
   extends: .semrel-base
   variables:
     GITLAB_TOKEN: $GITLAB_API_TOKEN
-    GIT_AUTHOR_NAME: "GitLab CI Bot"
-    GIT_AUTHOR_EMAIL: "gitlab-bot@fadutec.com"
-    GIT_COMMITTER_NAME: "GitLab CI Bot"
-    GIT_COMMITTER_EMAIL: "gitlab-bot@fadutec.com"
+    GIT_AUTHOR_NAME: 'GitLab CI Bot'
+    GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
+    GIT_COMMITTER_NAME: 'GitLab CI Bot'
+    GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: on_success
   script:
     - semantic-release ${TRACE:+--debug} --ci
+  artifacts:
+    paths:
+      - release_notes.md
+    expire_in: 1 day
 
 # release:
 #   stage: release
@@ -39,6 +43,9 @@ github-release:
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
+  needs:
+    - job: release
+      artifacts: true
   script:
     - |
       RELEASE_NOTES=$(cat release_notes.md | jq -R -s '.')
