@@ -1,20 +1,20 @@
-include:
-  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+# include:
+#   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
-semantic-release:
-  stage: release
-  extends: .semrel-base
-  variables:
-    GITLAB_TOKEN: $GITLAB_API_TOKEN
-    # GIT_AUTHOR_NAME: 'GitLab CI Bot'
-    GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
-    # GIT_COMMITTER_NAME: 'GitLab CI Bot'
-    GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: on_success
-  script:
-    - semantic-release ${TRACE:+--debug} --ci
+# semantic-release:
+#   stage: release
+#   extends: .semrel-base
+#   variables:
+#     GITLAB_TOKEN: $GITLAB_API_TOKEN
+#     # GIT_AUTHOR_NAME: 'GitLab CI Bot'
+#     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
+#     # GIT_COMMITTER_NAME: 'GitLab CI Bot'
+#     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+#       when: on_success
+#   script:
+#     - semantic-release ${TRACE:+--debug} --ci
 
 # release:
 #   stage: release
@@ -41,17 +41,38 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      LATEST_TAG="$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
-      GITLAB_RELEASE="$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
+      set -e  # Exit immediately if a command exits with a non-zero status
+
+      # Fetch latest tag
+      LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
+      if [ -z "$LATEST_TAG" ]; then
+        echo "Error: Could not fetch latest tag"
+        exit 1
+      fi
+
+      # Fetch GitLab release info
+      GITLAB_RELEASE="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${GITLAB_API_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
+      if [ -z "$GITLAB_RELEASE" ]; then
+        echo "Error: Could not fetch GitLab release information"
+        exit 1
+      fi
+
+      # Extract release notes
       RELEASE_NOTES="$(echo "$GITLAB_RELEASE" | jq -r ".description")"
-      RELEASE_INFO="$(curl -s -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}")"
+      if [ -z "$RELEASE_NOTES" ]; then
+        echo "Warning: Release notes are empty"
+      fi
+
+      # Check if release exists on GitHub
+      RELEASE_INFO="$(curl -s --fail -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}" || echo "")"
       RELEASE_ID="$(echo "$RELEASE_INFO" | jq -r ".id // empty")"
 
       if [ -z "$RELEASE_ID" ]; then
+        echo "Creating new GitHub release for tag ${LATEST_TAG}"
         # Create new release
         jq -n \
-          --arg tag "$CI_COMMIT_TAG" \
-          --arg name "Release ${CI_COMMIT_TAG}" \
+          --arg tag "$LATEST_TAG" \
+          --arg name "Release ${LATEST_TAG}" \
           --arg body "$RELEASE_NOTES" \
           '{
             tag_name: $tag,
@@ -61,31 +82,48 @@ github-release:
             prerelease: false
           }' > payload.json
 
-        curl -L \
+        RESPONSE=$(curl -L \
           -X POST \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_API_TOKEN}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -H "Content-Type: application/json" \
           --data @payload.json \
-          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases"
+          --fail \
+          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases")
+
+        if [ $? -eq 0 ]; then
+          echo "Successfully created GitHub release"
+        else
+          echo "Error: Failed to create GitHub release"
+          exit 1
+        fi
 
       else
+        echo "Updating existing GitHub release for tag ${LATEST_TAG}"
         # Update existing release
         jq -n \
-          --arg name "Release ${CI_COMMIT_TAG}" \
+          --arg name "Release ${LATEST_TAG}" \
           --arg body "$RELEASE_NOTES" \
           '{
             name: $name,
             body: $body
           }' > payload.json
 
-        curl -L \
+        RESPONSE=$(curl -L \
           -X PATCH \
           -H "Accept: application/vnd.github+json" \
           -H "Authorization: Bearer ${GITHUB_API_TOKEN}" \
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -H "Content-Type: application/json" \
           --data @payload.json \
-          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/${RELEASE_ID}"
+          --fail \
+          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/${RELEASE_ID}")
+
+        if [ $? -eq 0 ]; then
+          echo "Successfully updated GitHub release"
+        else
+          echo "Error: Failed to update GitHub release"
+          exit 1
+        fi
       fi
