@@ -1,32 +1,32 @@
-# include:
-#   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+include:
+  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
-# semantic-release:
+semantic-release:
+  stage: release
+  extends: .semrel-base
+  variables:
+    GITLAB_TOKEN: $GITLAB_API_TOKEN
+    GIT_AUTHOR_NAME: 'GitLab CI Bot'
+    GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
+    GIT_COMMITTER_NAME: 'GitLab CI Bot'
+    GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
+  script:
+    - semantic-release ${TRACE:+--debug} --ci
+
+# release:
 #   stage: release
-#   extends: .semrel-base
+#   image: node:20
 #   variables:
-#     GITLAB_TOKEN: $GITLAB_API_TOKEN
-#     GIT_AUTHOR_NAME: 'GitLab CI Bot'
-#     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
-#     GIT_COMMITTER_NAME: 'GitLab CI Bot'
-#     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-#       when: on_success
+#     GITLAB_TOKEN: ${GITLAB_API_TOKEN}
+#   before_script:
+#     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
 #   script:
 #     - semantic-release ${TRACE:+--debug} --ci
-
-# # release:
-# #   stage: release
-# #   image: node:20
-# #   variables:
-# #     GITLAB_TOKEN: ${GITLAB_API_TOKEN}
-# #   before_script:
-# #     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
-# #   script:
-# #     - semantic-release ${TRACE:+--debug} --ci
-# #   rules:
-# #     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+#   rules:
+#     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 github-release:
   stage: post
@@ -41,10 +41,22 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      # Fetch latest tag
-      LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
+      # Add retry logic for fetching latest tag
+      MAX_RETRIES=3
+      RETRY_COUNT=0
+
+      while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
+        LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
+        if [ ! -z "$LATEST_TAG" ]; then
+          break
+        fi
+        RETRY_COUNT=$((RETRY_COUNT + 1))
+        echo "Attempt $RETRY_COUNT: Waiting for tag to be available..."
+        sleep 10
+      done
+
       if [ -z "$LATEST_TAG" ]; then
-        echo "Error: Could not fetch latest tag"
+        echo "Error: Could not fetch latest tag after $MAX_RETRIES attempts"
         exit 1
       fi
       echo "LATEST_TAG: $LATEST_TAG"
