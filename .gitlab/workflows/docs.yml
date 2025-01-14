@@ -52,7 +52,7 @@ upload-terraform-doc:
       jq -n \
         --arg branch "$CI_DEFAULT_BRANCH" \
         --arg content "$CONTENT" \
-        --arg message "docs(terraform): update module documentation for ${MODULE_PATH}" \
+        --arg message "docs(terraform): update module documentation for ${MODULE_PATH} [skip ci]" \
         '{
           branch: $branch,
           encoding: "base64",
