@@ -1,3 +1,20 @@
+## [0.4.5](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.4...v0.4.5) (2025-01-14)
+
+### 🐛 Bug Fixes
+
+* last1 ([80d7ecb](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/80d7ecb37726425dc692b2b946ee612372a3719b))
+* last2 ([7eb7294](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/7eb729471ba9a9aceb1a9baed5d904baf32daa6e))
+* last3 ([37afd7f](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/37afd7f90085daaabd4ced05baf438ec6c4084cb))
+* last4 ([2c4e5b3](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/2c4e5b3d447be189d010b96f69b27e35f37b8fea))
+* last5 ([ac964e0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/ac964e0d44412c4db79d06bf579e3e89759a6a5f))
+* last6 ([39506b8](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/39506b8da15813593a23b99d8ee988da017db86b))
+* last7 change token ([606b33c](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/606b33c4e46e867757c57777bc1e4ff3241175b8))
+* last9 ([09279d2](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/09279d2b1ee4a9865888df60e379943c57d3dfed))
+* remove alex ([bdc7fef](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/bdc7fef2f6deb9f1ad702608fd11cfa7f023c999))
+* remove comments ([9a2403e](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/9a2403e09ce9b6328bc5df2a29dc1865995e06fe))
+* remove denis ([5ff0d2c](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/5ff0d2c282b188f24c7d5436cabdfe21c6476d92))
+* remove unnecessary comments ([1f18a50](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/1f18a508e336754c40ee6c7f933e9925096d6c3c))
+
 ## [0.4.4](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.3...v0.4.4) (2025-01-13)
 
 ### 🐛 Bug Fixes
