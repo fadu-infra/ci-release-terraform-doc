@@ -1,18 +1,18 @@
 include:
   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+  - local: 'ci/rules.gitlab-ci.yml'
 
 semantic-release:
   stage: release
-  extends: .semrel-base
+  extends:
+    - .semrel-base
+    - .rules:default_skip_docs
   variables:
     GITLAB_TOKEN: $GITLAB_API_TOKEN
     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   script:
     - semantic-release ${TRACE:+--debug} --ci
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
-      when: on_success
 
 # release:
 #   stage: release
@@ -31,9 +31,7 @@ github-release:
   image: alpine:latest
   before_script:
     - apk add --no-cache curl jq
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
-      when: on_success
+  extends: .rules:default_skip_docs
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'

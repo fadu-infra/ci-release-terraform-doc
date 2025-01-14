@@ -1,0 +1,13 @@
+.default_branch_skip_docs: &default_branch_skip_docs
+  if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
+
+.rules:default_skip_docs:
+  rules:
+    - <<: *default_branch_skip_docs
+      when: on_success
+
+.rules:default_skip_docs_changes:
+  rules:
+    - <<: *default_branch_skip_docs
+      changes:
+        - ${MODULE_PATH}/**/*.tf
