@@ -1,20 +1,20 @@
-# include:
-#   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+include:
+  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
-# semantic-release:
-#   stage: release
-#   extends: .semrel-base
-#   variables:
-#     GITLAB_TOKEN: $GITLAB_API_TOKEN
-#     # GIT_AUTHOR_NAME: 'GitLab CI Bot'
-#     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
-#     # GIT_COMMITTER_NAME: 'GitLab CI Bot'
-#     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
-#   rules:
-#     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-#       when: on_success
-#   script:
-#     - semantic-release ${TRACE:+--debug} --ci
+semantic-release:
+  stage: release
+  extends: .semrel-base
+  variables:
+    GITLAB_TOKEN: $GITLAB_API_TOKEN
+    # GIT_AUTHOR_NAME: 'GitLab CI Bot'
+    GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
+    # GIT_COMMITTER_NAME: 'GitLab CI Bot'
+    GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
+  script:
+    - semantic-release ${TRACE:+--debug} --ci
 
 # release:
 #   stage: release
