@@ -23,7 +23,7 @@ release:
     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   before_script:
-    - apt-get install -y git
+    - apt-get update && apt-get install -y git
     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
   script:
     - semantic-release ${TRACE:+--debug} --ci
