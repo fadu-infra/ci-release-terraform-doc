@@ -12,7 +12,7 @@
 | Name                                                                                                                                                      | Type        |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- |
 | [aws_autoscaling_group.ecs_nodes](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/autoscaling_group)                          | resource    |
-| [aws_ecs_capacity_provider.asg3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_capacity_provider)                       | resource    |
+| [aws_ecs_capacity_provider.asg](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_capacity_provider)                        | resource    |
 | [aws_ecs_cluster.default](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster)                                        | resource    |
 | [aws_ecs_cluster_capacity_providers.example3](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/ecs_cluster_capacity_providers) | resource    |
 | [aws_iam_instance_profile.ecs_instance](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile)                 | resource    |
