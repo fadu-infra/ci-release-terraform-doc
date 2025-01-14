@@ -22,13 +22,13 @@ variable "arm64" {
 variable "asg_max_size" {
   description = "The maximum size the auto scaling group (measured in EC2 instances)."
   type        = number
-  default     = 100
+  default     = 10
 }
 
 variable "asg_min_size" {
   description = "The minimum size the auto scaling group (measured in EC2 instances)."
   type        = number
-  default     = 50
+  default     = 10
 }
 
 variable "ebs_disks" {
