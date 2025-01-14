@@ -1,3 +1,20 @@
+## [0.9.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.21...v0.9.0) (2025-01-14)
+
+### 🚀 New Features
+
+* add variable ([f03ebad](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/f03ebad71d014ea38ca35c02e1824a1a09fa1244))
+* allow provided config object to extend other configs ([ec986c3](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/ec986c32cb80292fffd7b7b3133ff2a481cb8eb4))
+
+### 🐛 Bug Fixes
+
+* remove juny ([5b6ad0d](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/5b6ad0dacb14ee2502bb03681268930df9ea03f2))
+* remove neckslice ([7a4f854](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/7a4f85418fdd2bdbc03894147b69720707000752))
+
+### 📚 Documentation
+
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([06ff992](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/06ff99221c7b33e250e944a63587622c8723f2d1))
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([4a396bc](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/4a396bc3e1fd9ddfb59c6f2cb40c193270d4daf4))
+
 ## [0.8.21](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.20...v0.8.21) (2025-01-14)
 
 ### 🐛 Bug Fixes
