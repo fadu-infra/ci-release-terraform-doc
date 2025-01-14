@@ -13,7 +13,7 @@
       changes:
         - ${MODULE_PATH}/**/*.tf
 
-.rules:default_on_success:
+.rules:default_skip_docs_on_success:
   rules:
-    - <<: *default_branch
+    - <<: *default_branch_skip_docs
       when: on_success
