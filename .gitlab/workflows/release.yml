@@ -74,11 +74,15 @@ github-release:
       #echo "Sync GitLab release ${LATEST_TAG} to GitHub
       if [ -z "$RELEASE_ID" ]; then
         jq -n \
+          --arg tag "$LATEST_TAG" \
           --arg name "Release ${LATEST_TAG}" \
           --arg body "$RELEASE_NOTES" \
           '{
+            tag_name: $tag,
             name: $name,
-            body: $body
+            body: $body,
+            draft: false,
+            prerelease: false
           }' > payload.json
 
         RESPONSE=$(curl -L \
@@ -90,6 +94,9 @@ github-release:
           --data @payload.json \
           --write-out "\nHTTP_STATUS:%{http_code}" \
           "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases" 2>&1)
+
+        HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
+        BODY=$(echo "$RESPONSE" | sed '$d')
 
         if [ "$HTTP_STATUS" != "201" ]; then
           echo "Error: Failed to create GitHub release. Status: ${HTTP_STATUS}"
