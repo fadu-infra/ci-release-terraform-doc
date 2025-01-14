@@ -1,3 +1,10 @@
+## [0.11.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.10.0...v0.11.0) (2025-01-14)
+
+### 🚀 New Features
+
+* add test in real ([e7b63fb](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/e7b63fbfc12ae087282c3748095e9404cab70f06))
+* add typo ([35744c1](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/35744c13606ec5356e1350615d33bdd0220c756d))
+
 ## [0.10.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.9.0...v0.10.0) (2025-01-14)
 
 ### 🚀 New Features
