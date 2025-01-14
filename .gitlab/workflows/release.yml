@@ -6,6 +6,8 @@ release:
   image: node:20-buster-slim
   extends: .rules:default_skip_docs
   variables:
+    GIT_STRATEGY: clone # clone entire repo instead of reusing workspace
+    GIT_DEPTH: 0 # avoid shallow clone to give cliff all the info it needs
     GITLAB_TOKEN: $GITLAB_API_TOKEN
     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
