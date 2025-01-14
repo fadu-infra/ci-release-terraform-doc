@@ -14,6 +14,7 @@ release:
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   before_script:
     - apt-get update && apt-get install -y git
+    - git remote add github https://oauth2:${GITHUB_TOKEN}@github.com/fadu-infra/ci-release-terraform-doc.git
     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab @semantic-release/github conventional-changelog-conventionalcommits
   script:
     - semantic-release ${TRACE:+--debug} --ci
