@@ -12,8 +12,8 @@ variables:
 create-terraform-doc:
   stage: pre
   rules:
-    changes:
-      - ${MODULE_PATH}/**/*.tf
+    - changes:
+        - ${MODULE_PATH}/**/*.tf
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
     entrypoint: ['']
@@ -39,8 +39,8 @@ upload-terraform-doc:
   stage: docs
   extends: .doc-base
   rules:
-    changes:
-      - ${MODULE_PATH}/**/*.tf
+    - changes:
+        - ${MODULE_PATH}/**/*.tf
   needs:
     - job: create-terraform-doc
       artifacts: true

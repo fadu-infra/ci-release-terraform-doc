@@ -3,9 +3,9 @@
 
 workflow:
   rules:
-    - if: '$CI_COMMIT_MESSAGE =~ /^docs\(terraform\)/'
+    - if: '$CI_COMMIT_MESSAGE =~ /^docs\(terraform\)/' # docs 커밋 제외
       when: never
-    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\)/'
+    - if: '$CI_COMMIT_MESSAGE =~ /^chore\(release\)/' # release 커밋 제외
       when: never
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: always
