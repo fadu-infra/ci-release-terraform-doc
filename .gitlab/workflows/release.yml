@@ -88,6 +88,12 @@ github-release:
         if [ "$HTTP_STATUS" != "201" ]; then
           echo "Error: Failed to create GitHub release. Status: ${HTTP_STATUS}"
           echo "Response body: ${BODY}"
+
+          if echo "$BODY" | grep -q '"code": "already_exists"'; then
+            echo "The tag name already exists. Skipping update."
+            exit 0
+          fi
+
           exit 1
         fi
 
