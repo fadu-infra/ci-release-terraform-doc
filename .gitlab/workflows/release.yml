@@ -22,7 +22,7 @@ github-release:
   image: alpine:latest
   before_script:
     - apk add --no-cache curl jq
-  extends: .rules:default_on_succes
+  extends: .rules:default_on_success
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
