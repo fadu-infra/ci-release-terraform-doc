@@ -69,7 +69,6 @@ github-release:
       RELEASE_INFO="$(curl -s --fail -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_TEST_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}" || echo "")"
       RELEASE_ID="$(echo "$RELEASE_INFO" | jq -r ".id // empty")"
 
-      echo "RELEASE_INFO: $RELEASE_INFO"
       echo "RELEASE_ID: $RELEASE_ID"
 
       #echo "Sync GitLab release ${LATEST_TAG} to GitHub
