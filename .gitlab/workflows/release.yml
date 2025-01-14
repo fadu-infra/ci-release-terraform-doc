@@ -72,9 +72,8 @@ github-release:
       echo "RELEASE_INFO: $RELEASE_INFO"
       echo "RELEASE_ID: $RELEASE_ID"
 
+      #echo "Sync GitLab release ${LATEST_TAG} to GitHub
       if [ -z "$RELEASE_ID" ]; then
-        echo "Creating new GitHub release for tag ${LATEST_TAG}"
-        # Create new release
         jq -n \
           --arg tag "$LATEST_TAG" \
           --arg name "Release ${LATEST_TAG}" \
@@ -96,13 +95,6 @@ github-release:
           --data @payload.json \
           --write-out "\nHTTP_STATUS:%{http_code}" \
           "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases" 2>&1)
-
-        # 디버깅을 위해 응답 출력
-        echo "Full response:"
-        echo "$RESPONSE"
-
-        HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
-        BODY=$(echo "$RESPONSE" | sed '$d')
 
         if [ "$HTTP_STATUS" != "201" ]; then
           echo "Error: Failed to create GitHub release. Status: ${HTTP_STATUS}"
