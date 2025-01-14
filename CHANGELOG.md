@@ -1,3 +1,16 @@
+## [0.14.0](https://github.com/fadu-infra/ci-release-terraform-doc/compare/v0.13.9...v0.14.0) (2025-01-14)
+
+### 🚀 New Features
+
+* add github ([1ec65e1](https://github.com/fadu-infra/ci-release-terraform-doc/commit/1ec65e1f3fdb73678ae0328f9cec502f3d138f26))
+* add github test ([53ca3e9](https://github.com/fadu-infra/ci-release-terraform-doc/commit/53ca3e9eeadeb336bf9781de70aaedcab2b60e3a))
+* add github test2 ([cdf4497](https://github.com/fadu-infra/ci-release-terraform-doc/commit/cdf449723ecdc6a99c8d5e11c2659db6ff50fd36))
+* add github test3 ([de79b7c](https://github.com/fadu-infra/ci-release-terraform-doc/commit/de79b7c5bda8549d9da12be66ff8578b8692dbfd))
+
+### 🧰 Maintenance
+
+* add github ([8327cc3](https://github.com/fadu-infra/ci-release-terraform-doc/commit/8327cc39be25a3be59cc8fba2df0de0c7a486105))
+
 ## [0.13.9](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.13.8...v0.13.9) (2025-01-14)
 
 ### 🐛 Bug Fixes
