@@ -65,8 +65,16 @@
     [
       "@semantic-release/git",
       {
-        "assets": ["CHANGELOG.md"],
+        "assets": ["CHANGELOG.md", "modules/ecs-asg-cluster/README.md"],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+      }
+    ],
+    [
+      "@semantic-release/gitlab",
+      {
+        "successComment": "This ${issue.iid ? 'issue has been resolved' : 'merge request is included'} in version ${nextRelease.version} 🎉",
+        "labels": false,
+        "releasedLabels": false
       }
     ]
   ]

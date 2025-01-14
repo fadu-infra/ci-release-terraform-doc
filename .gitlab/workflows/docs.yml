@@ -36,29 +36,29 @@ create-terraform-doc:
       - ${MODULE_PATH}/${DOC_FILENAME}
     expire_in: 1 week
 
-upload-terraform-doc:
-  stage: docs
-  extends:
-    - .doc-base
-    - .rules:default_and_changes
-  script:
-    - |
-      FILE_PATH=$(echo "${MODULE_PATH}/${DOC_FILENAME}" | sed 's/\//%2F/g')
-      CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
+# upload-terraform-doc:
+#   stage: docs
+#   extends:
+#     - .doc-base
+#     - .rules:default_and_changes
+#   script:
+#     - |
+#       FILE_PATH=$(echo "${MODULE_PATH}/${DOC_FILENAME}" | sed 's/\//%2F/g')
+#       CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
 
-      jq -n \
-        --arg branch "$CI_DEFAULT_BRANCH" \
-        --arg content "$CONTENT" \
-        --arg message "docs(terraform): update module documentation for ${MODULE_PATH}" \
-        '{
-          branch: $branch,
-          encoding: "base64",
-          content: $content,
-          commit_message: $message
-        }' > payload.json
+#       jq -n \
+#         --arg branch "$CI_DEFAULT_BRANCH" \
+#         --arg content "$CONTENT" \
+#         --arg message "docs(terraform): update module documentation for ${MODULE_PATH}" \
+#         '{
+#           branch: $branch,
+#           encoding: "base64",
+#           content: $content,
+#           commit_message: $message
+#         }' > payload.json
 
-      curl --request PUT \
-        --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
-        --header "Content-Type: application/json" \
-        --data @payload.json \
-        "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
+#       curl --request PUT \
+#         --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
+#         --header "Content-Type: application/json" \
+#         --data @payload.json \
+#         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"

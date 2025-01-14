@@ -2,6 +2,12 @@ include:
   - local: '.gitlab/workflows/docs.yml'
   - local: '.gitlab/workflows/release.yml'
 
+workflow:
+  rules:
+    - if: $CI_COMMIT_MESSAGE =~ /\[skip ci\]/
+      when: never
+    - when: always
+
 stages:
   - pre
   - docs
