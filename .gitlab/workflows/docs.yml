@@ -11,7 +11,7 @@ variables:
 # Generate Terraform documentation
 create-terraform-doc:
   stage: pre
-  rrules:
+  rules:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
       changes:
         - ${MODULE_PATH}/**/*.tf
