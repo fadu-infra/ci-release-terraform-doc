@@ -12,5 +12,5 @@
 
 .rules:default_on_success:
   rules:
-    - <<: *default_branch_skip_chore
+    - <<: *default_branch
       when: on_success
