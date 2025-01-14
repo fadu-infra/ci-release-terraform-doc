@@ -1,3 +1,13 @@
+## [0.12.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.11.0...v0.12.0) (2025-01-14)
+
+### 🚀 New Features
+
+* add salad ([9e2ec2b](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/9e2ec2b830fd00f523bf77a94d4feb14266bd75e))
+
+### 📚 Documentation
+
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([aefbd3e](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/aefbd3e4b4e0a811c744c572157c99bd7927e687))
+
 ## [0.11.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.10.0...v0.11.0) (2025-01-14)
 
 ### 🚀 New Features
