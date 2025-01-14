@@ -41,18 +41,13 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      # GitHub API 테스트
-      TEST_RESPONSE=$(curl -s -H "Authorization: Bearer ${GITHUB_API_TOKEN}" \
-        "${GITHUB_API_URL}/repos/${GITHUB_REPO}")
-      echo "Repository test response:"
-      echo "$TEST_RESPONSE"
-
       # Fetch latest tag
       LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
       if [ -z "$LATEST_TAG" ]; then
         echo "Error: Could not fetch latest tag"
         exit 1
       fi
+      echo "LATEST_TAG: $LATEST_TAG"
 
       # Fetch GitLab release info
       GITLAB_RELEASE="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
@@ -60,6 +55,7 @@ github-release:
         echo "Error: Could not fetch GitLab release information"
         exit 1
       fi
+      echo "GITLAB_RELEASE: $GITLAB_RELEASE"
 
       # Extract release notes
       RELEASE_NOTES="$(echo "$GITLAB_RELEASE" | jq -r ".description")"
@@ -67,9 +63,14 @@ github-release:
         echo "Warning: Release notes are empty"
       fi
 
+      echo "RELEASE_NOTES: $RELEASE_NOTES"
+
       # Check if release exists on GitHub
       RELEASE_INFO="$(curl -s --fail -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}" || echo "")"
       RELEASE_ID="$(echo "$RELEASE_INFO" | jq -r ".id // empty")"
+
+      echo "RELEASE_INFO: $RELEASE_INFO"
+      echo "RELEASE_ID: $RELEASE_ID"
 
       if [ -z "$RELEASE_ID" ]; then
         echo "Creating new GitHub release for tag ${LATEST_TAG}"
