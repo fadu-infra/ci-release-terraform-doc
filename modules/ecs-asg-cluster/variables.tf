@@ -55,7 +55,7 @@ variable "snapshot_id" {
 variable "enabled_default_capacity_provider" {
   description = "Enable default capacity provider strategy."
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "instance_types" {

@@ -13,7 +13,7 @@ release:
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   before_script:
     - apt-get update && apt-get install -y git
-    - git checkout -B $CI_DEFAULT_BRANCH
+    - git fetch origin $CI_DEFAULT_BRANCH
     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
   script:
     - semantic-release ${TRACE:+--debug} --ci
