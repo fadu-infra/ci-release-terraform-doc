@@ -41,22 +41,10 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      # Add retry logic for fetching latest tag
-      MAX_RETRIES=3
-      RETRY_COUNT=0
-
-      while [ $RETRY_COUNT -lt $MAX_RETRIES ]; do
-        LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
-        if [ ! -z "$LATEST_TAG" ]; then
-          break
-        fi
-        RETRY_COUNT=$((RETRY_COUNT + 1))
-        echo "Attempt $RETRY_COUNT: Waiting for tag to be available..."
-        sleep 10
-      done
-
+      # Fetch latest tag
+      LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
       if [ -z "$LATEST_TAG" ]; then
-        echo "Error: Could not fetch latest tag after $MAX_RETRIES attempts"
+        echo "Error: Could not fetch latest tag"
         exit 1
       fi
       echo "LATEST_TAG: $LATEST_TAG"
@@ -86,15 +74,11 @@ github-release:
       #echo "Sync GitLab release ${LATEST_TAG} to GitHub
       if [ -z "$RELEASE_ID" ]; then
         jq -n \
-          --arg tag "$LATEST_TAG" \
           --arg name "Release ${LATEST_TAG}" \
           --arg body "$RELEASE_NOTES" \
           '{
-            tag_name: $tag,
             name: $name,
-            body: $body,
-            draft: false,
-            prerelease: false
+            body: $body
           }' > payload.json
 
         RESPONSE=$(curl -L \
