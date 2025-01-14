@@ -2,7 +2,7 @@
   if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 .default_branch_skip_chore: &default_branch_skip_chore
-  if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
+  if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH || $CI_COMMIT_TAG'
 
 .rules:default_and_changes:
   rules:
