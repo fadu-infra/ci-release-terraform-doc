@@ -6,12 +6,10 @@ semantic-release:
   extends: .semrel-base
   variables:
     GITLAB_TOKEN: $GITLAB_API_TOKEN
-    # GIT_AUTHOR_NAME: 'GitLab CI Bot'
     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
-    # GIT_COMMITTER_NAME: 'GitLab CI Bot'
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
       when: on_success
   script:
     - semantic-release ${TRACE:+--debug} --ci

@@ -39,7 +39,8 @@ upload-terraform-doc:
   stage: docs
   extends: .doc-base
   rules:
-    - changes:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
+      changes:
         - ${MODULE_PATH}/**/*.tf
   needs:
     - job: create-terraform-doc
