@@ -1,32 +1,32 @@
-include:
-  - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
+# include:
+#   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
-semantic-release:
-  stage: release
-  extends: .semrel-base
-  variables:
-    GITLAB_TOKEN: $GITLAB_API_TOKEN
-    GIT_AUTHOR_NAME: 'GitLab CI Bot'
-    GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
-    GIT_COMMITTER_NAME: 'GitLab CI Bot'
-    GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: on_success
-  script:
-    - semantic-release ${TRACE:+--debug} --ci
-
-# release:
+# semantic-release:
 #   stage: release
-#   image: node:20
+#   extends: .semrel-base
 #   variables:
-#     GITLAB_TOKEN: ${GITLAB_API_TOKEN}
-#   before_script:
-#     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
-#   script:
-#     - semantic-release ${TRACE:+--debug} --ci
+#     GITLAB_TOKEN: $GITLAB_API_TOKEN
+#     GIT_AUTHOR_NAME: 'GitLab CI Bot'
+#     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
+#     GIT_COMMITTER_NAME: 'GitLab CI Bot'
+#     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
 #   rules:
 #     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+#       when: on_success
+#   script:
+#     - semantic-release ${TRACE:+--debug} --ci
+
+# # release:
+# #   stage: release
+# #   image: node:20
+# #   variables:
+# #     GITLAB_TOKEN: ${GITLAB_API_TOKEN}
+# #   before_script:
+# #     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab conventional-changelog-conventionalcommits
+# #   script:
+# #     - semantic-release ${TRACE:+--debug} --ci
+# #   rules:
+# #     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
 github-release:
   stage: post
@@ -48,27 +48,6 @@ github-release:
         exit 1
       fi
       echo "LATEST_TAG: $LATEST_TAG"
-
-      # GitLab release가 완전히 생성될 때까지 대기
-      for i in {1..30}; do
-        GITLAB_RELEASE=$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" \
-          "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")
-
-        # jq로 release 데이터 확인 (에러 처리 추가)
-        if [ -n "$GITLAB_RELEASE" ] && [ "$(echo "$GITLAB_RELEASE" | jq -r 'if type=="object" then .tag_name else empty end')" = "$LATEST_TAG" ]; then
-          echo "GitLab release is ready"
-          break
-        fi
-
-        echo "Waiting for GitLab release to be ready... (attempt $i)"
-        sleep 5
-      done
-
-      # 최대 시도 횟수 초과 확인
-      if [ $i -eq 30 ]; then
-        echo "Timeout waiting for GitLab release"
-        exit 1
-      fi
 
       # Fetch GitLab release info
       GITLAB_RELEASE="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
