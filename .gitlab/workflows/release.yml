@@ -87,15 +87,19 @@ github-release:
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -H "Content-Type: application/json" \
           --data @payload.json \
-          --fail \
-          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases")
+          --write-out "\nHTTP_STATUS:%{http_code}" \
+          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases" 2>&1)
 
-        if [ $? -eq 0 ]; then
-          echo "Successfully created GitHub release"
-        else
-          echo "Error: Failed to create GitHub release"
+        HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
+        BODY=$(echo "$RESPONSE" | sed '$d')
+
+        if [ "$HTTP_STATUS" != "201" ]; then
+          echo "Error: Failed to create GitHub release. Status: ${HTTP_STATUS}"
+          echo "Response body: ${BODY}"
           exit 1
         fi
+
+        echo "Successfully created GitHub release"
 
       else
         echo "Updating existing GitHub release for tag ${LATEST_TAG}"
@@ -115,13 +119,17 @@ github-release:
           -H "X-GitHub-Api-Version: 2022-11-28" \
           -H "Content-Type: application/json" \
           --data @payload.json \
-          --fail \
-          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/${RELEASE_ID}")
+          --write-out "\nHTTP_STATUS:%{http_code}" \
+          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/${RELEASE_ID}" 2>&1)
 
-        if [ $? -eq 0 ]; then
-          echo "Successfully updated GitHub release"
-        else
-          echo "Error: Failed to update GitHub release"
+        HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
+        BODY=$(echo "$RESPONSE" | sed '$d')
+
+        if [ "$HTTP_STATUS" != "200" ]; then
+          echo "Error: Failed to update GitHub release. Status: ${HTTP_STATUS}"
+          echo "Response body: ${BODY}"
           exit 1
         fi
+
+        echo "Successfully updated GitHub release"
       fi
