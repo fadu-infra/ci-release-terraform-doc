@@ -1,3 +1,10 @@
+## [0.8.1](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.0...v0.8.1) (2025-01-14)
+
+### 🐛 Bug Fixes
+
+* update pipeline1 ([764ee21](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/764ee21909925dbf6163f0e74043fd16246bb1e8))
+* update pipeline2 ([1464a0b](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/1464a0b71d5e8ecc7617c8875b2835fabe98aa3b))
+
 ## [0.8.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.7.0...v0.8.0) (2025-01-14)
 
 ### 🚀 New Features
