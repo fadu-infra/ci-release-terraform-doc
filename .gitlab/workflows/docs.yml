@@ -1,11 +1,6 @@
 include:
   - local: 'ci/rules.gitlab-ci.yml'
 
-.doc-base:
-  image: alpine:latest
-  before_script:
-    - apk add --no-cache curl jq
-
 # Global variables used across jobs
 variables:
   MODULE_PATH: modules/ecs-asg-cluster
@@ -14,7 +9,7 @@ variables:
 # Generate Terraform documentation
 create-terraform-doc:
   stage: pre
-  extends: .rules:default_and_changes
+  extends: .rules:default_on_changes
   image:
     name: quay.io/terraform-docs/terraform-docs:latest
     entrypoint: ['']
@@ -34,31 +29,3 @@ create-terraform-doc:
   artifacts:
     paths:
       - ${MODULE_PATH}/${DOC_FILENAME}
-    expire_in: 1 week
-
-# upload-terraform-doc:
-#   stage: docs
-#   extends:
-#     - .doc-base
-#     - .rules:default_and_changes
-#   script:
-#     - |
-#       FILE_PATH=$(echo "${MODULE_PATH}/${DOC_FILENAME}" | sed 's/\//%2F/g')
-#       CONTENT=$(cat "${MODULE_PATH}/${DOC_FILENAME}" | jq -sR '@base64')
-
-#       jq -n \
-#         --arg branch "$CI_DEFAULT_BRANCH" \
-#         --arg content "$CONTENT" \
-#         --arg message "docs(terraform): update module documentation for ${MODULE_PATH}" \
-#         '{
-#           branch: $branch,
-#           encoding: "base64",
-#           content: $content,
-#           commit_message: $message
-#         }' > payload.json
-
-#       curl --request PUT \
-#         --header "PRIVATE-TOKEN: $GITLAB_API_TOKEN" \
-#         --header "Content-Type: application/json" \
-#         --data @payload.json \
-#         "$CI_API_V4_URL/projects/$CI_PROJECT_ID/repository/files/${FILE_PATH}"
