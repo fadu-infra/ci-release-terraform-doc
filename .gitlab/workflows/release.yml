@@ -10,9 +10,9 @@ semantic-release:
     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
     # GIT_COMMITTER_NAME: 'GitLab CI Bot'
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
-  # rules:
-  #   - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
-  #     when: on_success
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
+      when: on_success
   script:
     - semantic-release ${TRACE:+--debug} --ci
 
