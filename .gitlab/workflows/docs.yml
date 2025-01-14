@@ -42,9 +42,9 @@ upload-terraform-doc:
     - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^docs\(terraform\)/'
       changes:
         - ${MODULE_PATH}/**/*.tf
-  needs:
-    - job: create-terraform-doc
-      artifacts: true
+  # needs:
+  #   - job: create-terraform-doc
+  #     artifacts: true
   script:
     - |
       FILE_PATH=$(echo "${MODULE_PATH}/${DOC_FILENAME}" | sed 's/\//%2F/g')
