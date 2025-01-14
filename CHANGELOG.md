@@ -1,3 +1,13 @@
+## [0.8.20](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.19...v0.8.20) (2025-01-14)
+
+### 🐛 Bug Fixes
+
+* update pipeline41 ([974d4d3](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/974d4d30a8d339ef10bd5d3ae136931f22006b3b))
+
+### 📚 Documentation
+
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([1fe6430](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/1fe64301da0feedec46d87fa61b5025be9882c96))
+
 ## [0.8.19](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.18...v0.8.19) (2025-01-14)
 
 ### 🐛 Bug Fixes
