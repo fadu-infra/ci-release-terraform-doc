@@ -10,9 +10,9 @@ semantic-release:
     GIT_AUTHOR_EMAIL: 'gitlab-bot@fadutec.com'
     # GIT_COMMITTER_NAME: 'GitLab CI Bot'
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
-      when: on_success
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
+  #     when: on_success
   script:
     - semantic-release ${TRACE:+--debug} --ci
 
@@ -33,9 +33,9 @@ github-release:
   image: alpine:latest
   before_script:
     - apk add --no-cache curl jq
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
-      when: on_success
+  # rules:
+  #   - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
+  #     when: on_success
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
