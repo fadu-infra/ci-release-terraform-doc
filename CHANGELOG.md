@@ -1,3 +1,28 @@
+## [0.8.13](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.12...v0.8.13) (2025-01-14)
+
+### 🐛 Bug Fixes
+
+* update pipeline15 ([eeeab21](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/eeeab21f249f5d420d2ee38a8cf22df1666d9b79))
+* update pipeline16 ([73d59af](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/73d59afdb21a0d8bd8c616ec3d1acc08690f94e0))
+* update pipeline17 ([4220e80](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/4220e8057a518f61fb0d630418946b5cf016e4a6))
+* update pipeline18 ([8c95022](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/8c95022d8f5319897c96f3afc1952c57dc8d31ac))
+* update pipeline19 ([4e0ed0f](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/4e0ed0f51122755eef0e37288f4d883ea4e5b426))
+* update pipeline20 ([e2d9e8b](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/e2d9e8b9494cc10f773ce612083168b569dc9e1c))
+* update pipeline21 ([8b56a9d](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/8b56a9d9ad75ef3487385af2a33520d43035b2d7))
+* update pipeline22 ([d4cc82a](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/d4cc82a8e645b1c4ec77c38602e4e0a9312c4e09))
+* update pipeline23 ([5bb160c](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/5bb160c4eec2a33a6e5703ccc12399b0967b8e1a))
+* update pipeline24 ([0fb0576](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/0fb05767a6eef36fbdcf06e0b6795c73a0a752be))
+* update pipeline26 ([6050df9](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/6050df95612f87568a42c195628e7f8336883309))
+* update pipeline27 ([1492126](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/1492126695e40c609e77c8f7d46a55a879f4fcc3))
+* update pipeline28 ([90bbdd2](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/90bbdd248ecbb3d30e72099103bb57fb82bac613))
+* update pipeline29 ([fffceb7](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/fffceb712784c9355f20fb413428eaa586353c9f))
+
+### 📚 Documentation
+
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([e75f584](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/e75f5846f63844243a26e07ef322e9a22f405edc))
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([32a6318](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/32a6318f04dfab8ce256f380152d72ca978acc94))
+* **terraform:** update module documentation for modules/ecs-asg-cluster ([3acd5d0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/3acd5d0d9506aae4f183b16b9a87602cbabcb836))
+
 ## [0.8.12](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.8.11...v0.8.12) (2025-01-14)
 
 ### 🐛 Bug Fixes
