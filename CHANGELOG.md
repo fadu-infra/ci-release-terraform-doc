@@ -1,3 +1,9 @@
+## [0.5.0](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.5...v0.5.0) (2025-01-14)
+
+### 🚀 New Features
+
+* refactoring pipelines ([7521463](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/75214632774463ac3419ec56d887739cd96f054d))
+
 ## [0.4.5](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.4.4...v0.4.5) (2025-01-14)
 
 ### 🐛 Bug Fixes
