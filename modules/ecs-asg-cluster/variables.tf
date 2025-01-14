@@ -22,7 +22,7 @@ variable "arm64" {
 variable "asg_max_size" {
   description = "The maximum size the auto scaling group (measured in EC2 instances)."
   type        = number
-  default     = 10
+  default     = 13
 }
 
 variable "asg_min_size" {
