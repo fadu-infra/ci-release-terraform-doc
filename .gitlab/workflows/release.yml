@@ -1,11 +1,6 @@
 include:
   - component: $CI_SERVER_FQDN/tech/components/semantic-release/gitlab-ci-semrel@3.11.5
 
-workflow:
-  rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
-      when: always
-
 semantic-release:
   stage: release
   extends: .semrel-base
@@ -15,6 +10,9 @@ semantic-release:
     GIT_COMMITTER_EMAIL: 'gitlab-bot@fadutec.com'
   script:
     - semantic-release ${TRACE:+--debug} --ci
+  rules:
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
+      when: on_success
 
 # release:
 #   stage: release
@@ -34,7 +32,8 @@ github-release:
   before_script:
     - apk add --no-cache curl jq
   rules:
-    - when: on_success
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
+      when: on_success
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
