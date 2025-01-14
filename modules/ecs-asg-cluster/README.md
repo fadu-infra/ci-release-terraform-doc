@@ -39,7 +39,7 @@
 | <a name="input_subnet_ids"></a> [subnet_ids](#input_subnet_ids) | (Required) A list of subnet IDs. | `list(string)` | n/a | yes |
 | <a name="input_vpc_id"></a> [vpc_id](#input_vpc_id) | (Required) The VPC ID. | `string` | n/a | yes |
 | <a name="input_arm64"></a> [arm64](#input_arm64) | ECS node architecture. Default is `amd64`. You can change it to `arm64` by activating this flag. If you do, then you should use corresponding instance types. | `bool` | `false` | no |
-| <a name="input_asg_max_size"></a> [asg_max_size](#input_asg_max_size) | The maximum size the auto scaling group (measured in EC2 instances). | `number` | `10` | no |
+| <a name="input_asg_max_size"></a> [asg_max_size](#input_asg_max_size) | The maximum size the auto scaling group (measured in EC2 instances). | `number` | `100` | no |
 | <a name="input_asg_min_size"></a> [asg_min_size](#input_asg_min_size) | The minimum size the auto scaling group (measured in EC2 instances). | `number` | `10` | no |
 | <a name="input_ebs_disks"></a> [ebs_disks](#input_ebs_disks) | A list of additional EBS disks. | <pre>map(object({<br/>    volume_size           = string<br/>    delete_on_termination = bool<br/>  }))</pre> | `{}` | no |
 | <a name="input_enabled_default_capacity_provider"></a> [enabled_default_capacity_provider](#input_enabled_default_capacity_provider) | Enable default capacity provider strategy. | `bool` | `true` | no |
