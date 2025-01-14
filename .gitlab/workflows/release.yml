@@ -30,19 +30,31 @@ semantic-release:
 
 github-release:
   stage: post
-  needs:
-    - semantic-release
   image: alpine:latest
   before_script:
     - apk add --no-cache curl jq
   rules:
-    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH '
+    - if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
       when: on_success
   variables:
     GITHUB_REPO: 'fadu-infra/ci-release-terraform-doc'
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
+      # GitLab release가 완전히 생성될 때까지 대기
+      for i in {1..30}; do  # 최대 30번 시도 (각 5초 대기)
+        GITLAB_RELEASE=$(curl -s --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" \
+          "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")
+
+        if [ -n "$GITLAB_RELEASE" ] && [ "$(echo "$GITLAB_RELEASE" | jq -r '.tag_name')" = "$LATEST_TAG" ]; then
+          echo "GitLab release is ready"
+          break
+        fi
+
+        echo "Waiting for GitLab release to be ready... (attempt $i)"
+        sleep 5
+      done
+
       # Fetch latest tag
       LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
       if [ -z "$LATEST_TAG" ]; then
