@@ -1,8 +1,8 @@
 .default_branch: &default_branch
   if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
 
-# .default_branch_skip_chore: &default_branch_skip_chore
-#   if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
+.default_branch_skip_chore: &default_branch_skip_chore
+  if: '$CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_COMMIT_MESSAGE !~ /^chore\(release\)/'
 
 .rules:default_and_changes:
   rules:
@@ -12,5 +12,5 @@
 
 .rules:default_on_success:
   rules:
-    - <<: *default_branch
+    - <<: *default_branch_skip_chore
       when: on_success
