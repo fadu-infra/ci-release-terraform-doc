@@ -28,7 +28,7 @@ github-release:
     GITHUB_API_URL: 'https://api.github.com'
   script:
     - |
-      # Fetch latest tag
+      # 최신 태그 가져오기
       LATEST_TAG="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/repository/tags" | jq -r '.[0].name')"
       if [ -z "$LATEST_TAG" ]; then
         echo "Error: Could not fetch latest tag"
@@ -36,7 +36,18 @@ github-release:
       fi
       echo "LATEST_TAG: $LATEST_TAG"
 
-      # Fetch GitLab release info
+      # GitHub에 릴리스가 존재하는지 확인
+      RELEASE_INFO="$(curl -s --fail -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_TEST_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}" || echo "")"
+      RELEASE_ID="$(echo "$RELEASE_INFO" | jq -r ".id // empty")"
+
+      if [ -n "$RELEASE_ID" ]; then
+        echo "GitHub에 이미 태그 ${LATEST_TAG}에 대한 릴리스가 존재합니다. 업데이트를 건너뜁니다."
+        exit 0
+      fi
+
+      echo "RELEASE_ID: $RELEASE_ID"
+
+      # GitLab 릴리스 정보 가져오기
       GITLAB_RELEASE="$(curl -s --fail --header "PRIVATE-TOKEN: ${GITLAB_API_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/releases/${LATEST_TAG}")"
       if [ -z "$GITLAB_RELEASE" ]; then
         echo "Error: Could not fetch GitLab release information"
@@ -44,7 +55,7 @@ github-release:
       fi
       echo "GITLAB_RELEASE: $GITLAB_RELEASE"
 
-      # Extract release notes
+      # 릴리스 노트 추출
       RELEASE_NOTES="$(echo "$GITLAB_RELEASE" | jq -r ".description")"
       if [ -z "$RELEASE_NOTES" ]; then
         echo "Warning: Release notes are empty"
@@ -52,82 +63,36 @@ github-release:
 
       echo "RELEASE_NOTES: $RELEASE_NOTES"
 
-      # Check if release exists on GitHub
-      RELEASE_INFO="$(curl -s --fail -H "Accept: application/vnd.github+json" -H "Authorization: Bearer ${GITHUB_TEST_API_TOKEN}" -H "X-GitHub-Api-Version: 2022-11-28" "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/tags/${LATEST_TAG}" || echo "")"
-      RELEASE_ID="$(echo "$RELEASE_INFO" | jq -r ".id // empty")"
+      # 새로운 릴리스 생성
+      jq -n \
+        --arg tag "$LATEST_TAG" \
+        --arg name "Release ${LATEST_TAG}" \
+        --arg body "$RELEASE_NOTES" \
+        '{
+          tag_name: $tag,
+          name: $name,
+          body: $body,
+          draft: false,
+          prerelease: false
+        }' > payload.json
 
-      echo "RELEASE_ID: $RELEASE_ID"
+      RESPONSE=$(curl -L \
+        -X POST \
+        -H "Accept: application/vnd.github+json" \
+        -H "Authorization: Bearer ${GITHUB_TEST_API_TOKEN}" \
+        -H "X-GitHub-Api-Version: 2022-11-28" \
+        -H "Content-Type: application/json" \
+        --data @payload.json \
+        --write-out "\nHTTP_STATUS:%{http_code}" \
+        "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases" 2>&1)
 
-      #echo "Sync GitLab release ${LATEST_TAG} to GitHub
-      if [ -z "$RELEASE_ID" ]; then
-        jq -n \
-          --arg tag "$LATEST_TAG" \
-          --arg name "Release ${LATEST_TAG}" \
-          --arg body "$RELEASE_NOTES" \
-          '{
-            tag_name: $tag,
-            name: $name,
-            body: $body,
-            draft: false,
-            prerelease: false
-          }' > payload.json
+      HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
+      BODY=$(echo "$RESPONSE" | sed '$d')
 
-        RESPONSE=$(curl -L \
-          -X POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${GITHUB_TEST_API_TOKEN}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          -H "Content-Type: application/json" \
-          --data @payload.json \
-          --write-out "\nHTTP_STATUS:%{http_code}" \
-          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases" 2>&1)
-
-        HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
-        BODY=$(echo "$RESPONSE" | sed '$d')
-
-        if [ "$HTTP_STATUS" != "201" ]; then
-          echo "Error: Failed to create GitHub release. Status: ${HTTP_STATUS}"
-          echo "Response body: ${BODY}"
-
-          if echo "$BODY" | grep -q '"code": "already_exists"'; then
-            echo "The tag name already exists. Skipping update."
-            exit 0
-          fi
-
-          exit 1
-        fi
-
-        echo "Successfully created GitHub release"
-
-      else
-        echo "Updating existing GitHub release for tag ${LATEST_TAG}"
-        # Update existing release
-        jq -n \
-          --arg name "Release ${LATEST_TAG}" \
-          --arg body "$RELEASE_NOTES" \
-          '{
-            name: $name,
-            body: $body
-          }' > payload.json
-
-        RESPONSE=$(curl -L \
-          -X PATCH \
-          -H "Accept: application/vnd.github+json" \
-          -H "Authorization: Bearer ${GITHUB_TEST_API_TOKEN}" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          -H "Content-Type: application/json" \
-          --data @payload.json \
-          --write-out "\nHTTP_STATUS:%{http_code}" \
-          "${GITHUB_API_URL}/repos/${GITHUB_REPO}/releases/${RELEASE_ID}" 2>&1)
-
-        HTTP_STATUS=$(echo "$RESPONSE" | grep "HTTP_STATUS" | cut -d":" -f2)
-        BODY=$(echo "$RESPONSE" | sed '$d')
-
-        if [ "$HTTP_STATUS" != "200" ]; then
-          echo "Error: Failed to update GitHub release. Status: ${HTTP_STATUS}"
-          echo "Response body: ${BODY}"
-          exit 1
-        fi
-
-        echo "Successfully updated GitHub release"
+      if [ "$HTTP_STATUS" != "201" ]; then
+        echo "Error: Failed to create GitHub release. Status: ${HTTP_STATUS}"
+        echo "Response body: ${BODY}"
+        exit 1
       fi
+
+      echo "Successfully created GitHub release"
