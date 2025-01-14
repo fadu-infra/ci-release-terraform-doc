@@ -17,3 +17,4 @@ release:
     - npm install -g semantic-release @semantic-release/changelog @semantic-release/git @semantic-release/gitlab @semantic-release/github conventional-changelog-conventionalcommits
   script:
     - semantic-release ${TRACE:+--debug} --ci
+
