@@ -1,3 +1,9 @@
+## [0.13.5](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.13.4...v0.13.5) (2025-01-14)
+
+### 🐛 Bug Fixes
+
+* hello7 ([246fd31](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/commit/246fd313613ee0c903fe0ec0c8c4c55cb306690d))
+
 ## [0.13.4](https://gitlab.fadutec.dev/infra/devops/ci-release-terraform-doc/compare/v0.13.3...v0.13.4) (2025-01-14)
 
 ### 🐛 Bug Fixes
