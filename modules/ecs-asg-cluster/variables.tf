@@ -28,7 +28,7 @@ variable "asg_max_size" {
 variable "asg_min_size" {
   description = "The minimum size the auto scaling group (measured in EC2 instances)."
   type        = number
-  default     = 10
+  default     = 11
 }
 
 variable "ebs_disks" {
